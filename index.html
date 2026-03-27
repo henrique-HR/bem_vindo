@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pagamento Confirmado — Renda com IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '27320322007555640');
+fbq('track', 'PageView');
+fbq('track', 'Purchase', {value: 27.00, currency: 'BRL'});
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=27320322007555640&ev=Purchase&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<style>
+:root {
+  --navy:      #080E26;
+  --navy-mid:  #0D1B4B;
+  --navy-card: #111D3C;
+  --gold:      #C9A84C;
+  --gold-lt:   #E8C97A;
+  --gold-pale: #FBF5E0;
+  --gold-dark: #7A5C10;
+  --white:     #FAFAFA;
+  --off:       #DDE1EE;
+  --muted:     #7A80A0;
+  --body:      #38385A;
+  --light-bg:  #F7F8FC;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Noise overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── Gold top rule ── */
+.top-rule {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  position: relative;
+  z-index: 10;
+}
+
+/* ── NAV ── */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 6vw;
+  position: relative;
+  z-index: 10;
+  border-bottom: 0.5px solid rgba(201,168,76,0.15);
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+.nav-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--gold);
+  border: 0.5px solid var(--gold);
+  padding: 0.3rem 0.8rem;
+  border-radius: 2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Gold rule ── */
+.gold-rule {
+  width: 3rem;
+  height: 1.5px;
+  background: var(--gold);
+  margin: 1.2rem 0;
+}
+.gold-rule.center { margin: 1.2rem auto; }
+
+/* ── CHECK ICON ── */
+.check-hero {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 2rem;
+}
+.check-hero-ring {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(61,170,112,0.12);
+  border: 2px solid rgba(61,170,112,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  position: relative;
+  animation: ringPulse 2.5s ease-in-out infinite;
+}
+@keyframes ringPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(61,170,112,0.3); }
+  50%       { box-shadow: 0 0 0 18px rgba(61,170,112,0); }
+}
+
+/* ── MAIN SECTION ── */
+.thankyou-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 6vw;
+  position: relative;
+  z-index: 1;
+}
+.thankyou-inner {
+  max-width: 680px;
+  width: 100%;
+  text-align: center;
+}
+
+.ty-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #3DAA70;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+}
+.ty-eyebrow::before,
+.ty-eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 2rem;
+  height: 1px;
+  background: #3DAA70;
+}
+
+.ty-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.ty-title .highlight { color: var(--gold); }
+
+.ty-body {
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--off);
+  line-height: 1.8;
+  max-width: 520px;
+  margin: 0 auto 2.8rem;
+}
+.ty-body strong {
+  color: var(--white);
+  font-weight: 600;
+}
+
+/* ── Info card ── */
+.info-card {
+  background: var(--navy-card);
+  border: 0.5px solid rgba(201,168,76,0.2);
+  border-radius: 10px;
+  padding: 1.8rem 2rem;
+  margin-bottom: 2.4rem;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.info-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.info-card-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.info-steps { list-style: none; }
+.info-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  font-size: 0.9rem;
+  color: var(--off);
+  line-height: 1.6;
+  padding: 0.55rem 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+}
+.info-steps li:last-child { border-bottom: none; }
+.step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.12);
+  border: 0.5px solid rgba(201,168,76,0.35);
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── CTA button (identical to LP) ── */
+.btn-primary {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--gold);
+  color: var(--navy);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 1rem 2.4rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.15);
+  transform: translateX(-100%);
+  transition: transform 0.3s;
+}
+.btn-primary:hover::before { transform: translateX(0); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.35); }
+.btn-sub {
+  font-size: 0.72rem;
+  font-weight: 400;
+  opacity: 0.75;
+  margin-top: 0.15rem;
+  letter-spacing: 0.01em;
+}
+.btn-primary.large {
+  font-size: 1.05rem;
+  padding: 1.2rem 3rem;
+}
+.btn-center {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.4rem;
+}
+
+/* ── Trust pills ── */
+.trust-pills {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+.pill {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--gold);
+  border: 0.5px solid rgba(201,168,76,0.4);
+  padding: 0.35rem 0.9rem;
+  border-radius: 2rem;
+  letter-spacing: 0.04em;
+  background: rgba(201,168,76,0.05);
+}
+
+/* ── Support link ── */
+.support-link {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.support-link a {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 0.5px solid rgba(201,168,76,0.35);
+  transition: color 0.2s;
+}
+.support-link a:hover { color: var(--gold-lt); }
+
+/* ── Divider ── */
+.section-divider {
+  border: none;
+  border-top: 0.5px solid rgba(201,168,76,0.12);
+  margin: 0;
+}
+
+/* ── Footer ── */
+footer {
+  padding: 2rem 6vw;
+  text-align: center;
+  border-top: 0.5px solid rgba(255,255,255,0.05);
+  position: relative;
+  z-index: 1;
+}
+footer p {
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.anim-1 { animation: fadeUp 0.5s 0.0s ease both; }
+.anim-2 { animation: fadeUp 0.5s 0.1s ease both; }
+.anim-3 { animation: fadeUp 0.5s 0.2s ease both; }
+.anim-4 { animation: fadeUp 0.5s 0.3s ease both; }
+.anim-5 { animation: fadeUp 0.5s 0.4s ease both; }
+.anim-6 { animation: fadeUp 0.5s 0.5s ease both; }
+.anim-7 { animation: fadeUp 0.5s 0.6s ease both; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .info-card { padding: 1.4rem 1.2rem; }
+  .btn-primary.large { padding: 1.1rem 2rem; font-size: 0.95rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-rule"></div>
+
+<nav>
+  <span class="nav-logo">Renda com IA</span>
+  <span class="nav-badge">Edição 2026</span>
+</nav>
+
+<hr class="section-divider">
+
+<!-- ── THANK YOU MAIN ── -->
+<section class="thankyou-section">
+  <div class="thankyou-inner">
+
+    <!-- Check icon -->
+    <div class="check-hero anim-1">
+      <div class="check-hero-ring">✅</div>
+    </div>
+
+    <!-- Eyebrow -->
+    <p class="ty-eyebrow anim-2">Compra realizada com sucesso</p>
+
+    <!-- Title -->
+    <h1 class="ty-title anim-3">
+      Pagamento<br>
+      <span class="highlight">Confirmado!</span>
+    </h1>
+
+    <div class="gold-rule center anim-3"></div>
+
+    <!-- Body text -->
+    <p class="ty-body anim-4">
+      O <strong>Ebook Renda com IA</strong> foi enviado para o seu e-mail.<br>
+      Verifique sua <strong>caixa de entrada</strong> e também a <strong>pasta de spam</strong> caso não encontre.
+    </p>
+
+    <!-- Info card with next steps -->
+    <div class="info-card anim-5">
+      <p class="info-card-label">📬 Próximos passos</p>
+      <ul class="info-steps">
+        <li>
+          <span class="step-num">1</span>
+          Confira o e-mail que você usou na compra — o link de acesso chegará em instantes.
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          Caso não encontre, verifique a pasta <strong>Spam</strong> ou <strong>Promoções</strong>.
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          Acesse a Área de Membros da Kiwify para baixar seu material a qualquer hora.
+        </li>
+        <li>
+          <span class="step-num">4</span>
+          No <strong>Dia 9</strong>, seu bônus de 50+ Prompts será liberado automaticamente.
+        </li>
+      </ul>
+    </div>
+
+    <!-- CTA button -->
+    <div class="btn-center anim-6">
+      <a href="https://www.kiwify.com.br/entrar" target="_blank" rel="noopener" class="btn-primary large">
+        Acessar Área de Membros (Kiwify)
+        <span class="btn-sub">Clique para acessar seu conteúdo agora</span>
+      </a>
+    </div>
+
+    <!-- Trust pills -->
+    <div class="trust-pills anim-6">
+      <span class="pill">✓ Acesso imediato</span>
+      <span class="pill">✓ Bônus no Dia 9</span>
+      <span class="pill">✓ Garantia de 7 dias</span>
+    </div>
+
+    <!-- Support -->
+    <p class="support-link anim-7">
+      Algum problema com o acesso? Entre em contato pelo nosso suporte:<br>
+      <a href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20comprei%20o%20Renda%20com%20IA%20e%20preciso%20de%20ajuda." target="_blank" rel="noopener">
+        💬 Falar com o suporte via WhatsApp
+      </a>
+    </p>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>
+    © 2026 Renda com IA · Todos os direitos reservados<br>
+    Este produto possui licença PLR — você pode personalizar e revender o material.<br>
+    <span style="color:rgba(122,128,160,0.5);font-size:.65rem;">
+      Os resultados apresentados são estimativas de mercado e não constituem garantia de ganho.
+    </span>
+  </p>
+</footer>
+
+</body>
+</html>
